@@ -98,6 +98,8 @@ export interface Salon {
   domain: string;
   name: string;
   claim: string;
+  /** Dateiname des Aufmacherfotos in kunden/<slug>/images/. Leer = Initiale. */
+  heroFoto?: { datei: string; alt: string };
   adresse: Adresse;
   kontakt: Kontakt;
   social?: { instagram?: string; facebook?: string };
@@ -257,6 +259,27 @@ export function terminZiel(s: Salon): { href: string; text: string; extern: bool
 
 export function telefonText(k: Kontakt): string {
   return k.telefonAnzeige?.trim() || k.telefon;
+}
+
+/**
+ * Das Aufmacherfoto, oder null.
+ *
+ * Die Bilder eines Kunden werden vor dem Bauen nach template/public/bilder/
+ * kopiert (siehe scripts/baue.mjs); auf der Seite liegen sie also unter
+ * /bilder/<datei>. Fehlt das Foto, gibt diese Funktion null zurück und der
+ * Aufmacher zeigt stattdessen die Initiale auf Farbfläche — das ist der
+ * Normalfall bei Lead-Vorschauen, nicht der Fehlerfall.
+ */
+export function heroBild(s: Salon): { src: string; alt: string } | null {
+  const h = s.heroFoto;
+  if (h && h.datei?.trim()) {
+    return { src: `/bilder/${h.datei.trim()}`, alt: h.alt?.trim() || `${s.name} in ${s.adresse.ort}` };
+  }
+  const erstes = s.galerie?.[0];
+  if (erstes?.datei?.trim()) {
+    return { src: `/bilder/${erstes.datei.trim()}`, alt: erstes.alt?.trim() || `${s.name} in ${s.adresse.ort}` };
+  }
+  return null;
 }
 
 /** Route-Link ohne eingebettete Google-Karte — die würde Scripts laden. */

@@ -2,14 +2,19 @@
 import Basis from "../layouts/Basis.astro";
 import Hero from "../components/Hero.astro";
 import Leistungen from "../components/Leistungen.astro";
+import UeberUns from "../components/UeberUns.astro";
+import Bewertungen from "../components/Bewertungen.astro";
 import Kontakt from "../components/Kontakt.astro";
 import { ladeSalon } from "../lib/salon";
 
 const salon = ladeSalon();
+const s = salon.sektionen;
 ---
 
 <Basis salon={salon}>
   <Hero salon={salon} />
-  {salon.sektionen.leistungen && <Leistungen salon={salon} />}
+  {s.leistungen && <Leistungen salon={salon} />}
+  {s.ueberUns && <UeberUns salon={salon} />}
+  {s.bewertungen && salon.bewertungen && <Bewertungen salon={salon} />}
   <Kontakt salon={salon} />
 </Basis>

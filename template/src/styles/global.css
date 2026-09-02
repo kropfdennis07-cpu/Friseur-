@@ -15,49 +15,60 @@
 :root,
 [data-theme="klar"] {
   --t-grund: #ffffff;
-  --t-grund-sanft: #f6f7f5;
-  --t-text: #1b1d1a;
+  --t-grund-sanft: #f2f4f0;
+  --t-grund-satt: #2f3d31;
+  --t-text: #16180f;
   --t-text-leise: #5c625a;
-  --t-akzent: #4d6650;
+  --t-akzent: #3f5943;
   --t-akzent-text: #ffffff;
-  --t-rand: #e3e6e1;
-  --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --t-schrift-titel: var(--t-schrift);
-  --t-rundung: 0.5rem;
-}
-
-[data-theme="warm"] {
-  --t-grund: #fdfaf5;
-  --t-grund-sanft: #f4ece1;
-  --t-text: #2e2620;
-  --t-text-leise: #665849;
-  --t-akzent: #8a5d38;
-  --t-akzent-text: #ffffff;
-  --t-rand: #e8dccc;
+  --t-rand: #dfe3db;
   --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   --t-schrift-titel: ui-serif, Georgia, Cambria, "Times New Roman", serif;
-  --t-rundung: 0.75rem;
+  --t-titel-gewicht: 400;
+  --t-titel-sperrung: -0.02em;
+  --t-rundung: 0.25rem;
+}
+
+[data-theme="warm"] {
+  --t-grund: #fefaf4;
+  --t-grund-sanft: #f6ebdc;
+  --t-grund-satt: #6b4429;
+  --t-text: #2a211a;
+  --t-text-leise: #6b5c4c;
+  --t-akzent: #9c5f30;
+  --t-akzent-text: #ffffff;
+  --t-rand: #e9dbc8;
+  --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --t-schrift-titel: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --t-titel-gewicht: 400;
+  --t-titel-sperrung: -0.015em;
+  --t-rundung: 999px;
 }
 
 [data-theme="nacht"] {
-  --t-grund: #14151a;
-  --t-grund-sanft: #1d1f26;
-  --t-text: #f2f1ee;
-  --t-text-leise: #b3b1a9;
+  --t-grund: #111216;
+  --t-grund-sanft: #191b21;
+  --t-grund-satt: #d4af37;
+  --t-text: #f4f3f0;
+  --t-text-leise: #a9a79f;
   --t-akzent: #d4af37;
-  --t-akzent-text: #14151a;
-  --t-rand: #2c2f38;
+  --t-akzent-text: #111216;
+  --t-rand: #2b2e37;
   --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
-  --t-schrift-titel: var(--t-schrift);
-  --t-rundung: 0.25rem;
+  --t-schrift-titel: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  --t-titel-gewicht: 300;
+  --t-titel-sperrung: 0.06em;
+  --t-rundung: 0;
 }
 
 @theme inline {
   --color-grund: var(--t-grund);
   --color-grund-sanft: var(--t-grund-sanft);
+  --color-grund-satt: var(--t-grund-satt);
   --color-text: var(--t-text);
   --color-text-leise: var(--t-text-leise);
   --color-akzent: var(--t-akzent);
@@ -66,6 +77,41 @@
   --font-sans: var(--t-schrift);
   --font-titel: var(--t-schrift-titel);
   --radius-eigen: var(--t-rundung);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   TITEL
+
+   Der Unterschied zwischen "Website" und "Formular" liegt fast ganz in
+   den Überschriften: Schriftart, Gewicht und Sperrung kommen aus dem
+   Theme, nicht aus der Komponente. So sieht "Warm" wirklich anders aus
+   als "Nacht" — und nicht nur andersfarbig.
+   ───────────────────────────────────────────────────────────────────── */
+
+.titel {
+  font-family: var(--t-schrift-titel);
+  font-weight: var(--t-titel-gewicht);
+  letter-spacing: var(--t-titel-sperrung);
+  line-height: 1.05;
+}
+
+/* Die Zeile über einer Überschrift: klein, gesperrt, in Akzentfarbe. */
+.dachzeile {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--t-akzent);
+}
+
+/* Ein Strich, der eine Sektion beginnt statt einer weiteren Linie. */
+.strich::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 2px;
+  margin-bottom: 1.5rem;
+  background: var(--t-akzent);
 }
 
 /* ─── Grundlagen ──────────────────────────────────────────────────── */

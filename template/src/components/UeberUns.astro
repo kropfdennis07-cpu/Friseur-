@@ -1,0 +1,70 @@
+---
+/**
+ * Über uns und Team.
+ *
+ * Die Sektion, die aus einer Preisliste eine Salonseite macht. Menschen
+ * gehen zum Friseur zu einem *Menschen*, nicht zu einem Betrieb — wer
+ * Vornamen und Gesichter weglässt, verschenkt genau das.
+ *
+ * Fehlen Fotos (Fototermin steht noch aus), stehen Initialen auf
+ * Farbkreisen. Das wirkt gewollt, nicht kaputt.
+ */
+import type { Salon } from "../lib/salon";
+
+interface Props {
+  salon: Salon;
+}
+const { salon } = Astro.props;
+const team = salon.team ?? [];
+---
+
+<section id="ueber-uns" class="scroll-mt-16 bg-grund-sanft">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+      <div>
+        <p class="dachzeile">Wer wir sind</p>
+        <h2 class="titel mt-4 text-4xl sm:text-5xl">Hinter der Schere</h2>
+      </div>
+
+      <div>
+        <p class="text-xl leading-relaxed sm:text-2xl">
+          {salon.ueberUns}
+        </p>
+      </div>
+    </div>
+
+    {
+      team.length > 0 && (
+        <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {team.map((person) => (
+            <div class="flex items-center gap-5">
+              {person.foto ? (
+                <img
+                  src={`/bilder/${person.foto}`}
+                  alt={`${person.vorname}, ${person.rolle}`}
+                  width="160"
+                  height="160"
+                  class="size-20 shrink-0 rounded-full object-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <div
+                  class="flex size-20 shrink-0 items-center justify-center rounded-full bg-grund-satt"
+                  aria-hidden="true"
+                >
+                  <span class="titel text-3xl" style="color: var(--t-grund)">
+                    {person.vorname.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
+              <div>
+                <p class="titel text-2xl">{person.vorname}</p>
+                <p class="mt-1 text-sm text-text-leise">{person.rolle}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>

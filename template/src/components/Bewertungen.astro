@@ -1,0 +1,64 @@
+---
+/**
+ * Was Kundinnen und Kunden sagen.
+ *
+ * Die Zitate stehen von Hand in salon.json, mit Vorname, Monat und der
+ * Quellenangabe "Google" — abgetippt beim Vierteljahres-Check, nicht per
+ * Schnittstelle geholt (Google verbietet das Speichern, siehe FAHRPLAN
+ * 10.6). Der Link aufs Profil ist Pflicht und steht darunter.
+ *
+ * Das ist die zweitwichtigste Sektion nach den Preisen: Fremde Stimmen
+ * überzeugen, wo eigene Werbetexte abprallen.
+ */
+import type { Salon } from "../lib/salon";
+
+interface Props {
+  salon: Salon;
+}
+const { salon } = Astro.props;
+const b = salon.bewertungen!;
+const volle = Math.round(b.sterne);
+---
+
+<section id="bewertungen" class="scroll-mt-16 bg-grund">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="dachzeile">Was andere sagen</p>
+        <h2 class="titel mt-4 text-4xl sm:text-5xl">
+          {b.sterne.toFixed(1).replace(".", ",")} von 5
+        </h2>
+        <p class="mt-3 text-text-leise">
+          <span class="text-lg tracking-widest text-akzent" aria-hidden="true">
+            {"★".repeat(volle)}{"☆".repeat(5 - volle)}
+          </span>
+          <span class="ml-2">aus {b.anzahl} Bewertungen bei Google</span>
+        </p>
+      </div>
+
+      <a
+        href={b.profilUrl}
+        target="_blank"
+        rel="noopener"
+        class="text-sm font-semibold text-akzent underline underline-offset-4 hover:no-underline"
+      >
+        Alle Bewertungen ansehen
+      </a>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        b.zitate.map((z) => (
+          <figure class="flex h-full flex-col justify-between border-t-2 border-akzent bg-grund-sanft p-6">
+            <blockquote class="titel text-xl leading-snug">
+              „{z.text}"
+            </blockquote>
+            <figcaption class="mt-6 text-sm text-text-leise">
+              {z.vorname} · {z.datum} · Quelle: Google
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
