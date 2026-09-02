@@ -1,15 +1,36 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────────────
+   SCHRIFTEN
+
+   Drei echte Schriften, als Dateien im Projekt — nicht von Googles
+   Servern. Der Unterschied ist zweifach: Erstens sieht die Seite auf
+   jedem Gerät gleich aus (Systemschriften tun das nicht: was auf einem
+   Mac nach Futura aussieht, ist auf Android Roboto). Zweitens lädt die
+   Seite weiterhin nichts von fremden Servern — das ist die Bedingung
+   dafür, dass kein Cookie-Banner nötig ist.
+
+   Jost   – geometrisch, schlank, Futura-Verwandtschaft. Trägt "Nacht".
+   Fraunces – Serif mit Charakter, weich und eigen. Trägt "Warm".
+   Marcellus – römische Versalien, ruhig und teuer. Trägt "Klar".
+
+   Alle drei stehen unter der SIL Open Font License: kostenlos, auch
+   gewerblich, auch für Kundenseiten.
+   ───────────────────────────────────────────────────────────────────── */
+
+@import "@fontsource-variable/jost";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource/marcellus";
+
+/* ─────────────────────────────────────────────────────────────────────
    DIE DREI THEMES
 
-   Jedes Theme setzt dieselben acht Variablen. Welches gilt, entscheidet
+   Jedes Theme setzt dieselben Variablen. Welches gilt, entscheidet
    data-theme am <html> — gesetzt aus salon.json.
 
-   Schriften sind bewusst System-Schriften: keine Google-Fonts-CDN, keine
-   Webfont-Datei, kein externer Request. Das ist keine Sparmaßnahme,
-   sondern die Grundlage für "kein Cookie-Banner nötig" — und es lädt
-   sofort, auch im Funkloch zwischen Wolnzach und Mainburg.
+   Ein Theme ist nicht nur eine Farbpalette: Schriftart, Titelgewicht,
+   Sperrung und Eckenradius gehören dazu. Deshalb sieht "Warm" wirklich
+   anders aus als "Nacht" und nicht nur anders eingefärbt.
    ───────────────────────────────────────────────────────────────────── */
 
 :root,
@@ -22,11 +43,10 @@
   --t-akzent: #3f5943;
   --t-akzent-text: #ffffff;
   --t-rand: #dfe3db;
-  --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --t-schrift-titel: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --t-schrift: "Jost Variable", ui-sans-serif, system-ui, sans-serif;
+  --t-schrift-titel: "Marcellus", ui-serif, Georgia, serif;
   --t-titel-gewicht: 400;
-  --t-titel-sperrung: -0.02em;
+  --t-titel-sperrung: 0.005em;
   --t-rundung: 0.25rem;
 }
 
@@ -39,11 +59,10 @@
   --t-akzent: #9c5f30;
   --t-akzent-text: #ffffff;
   --t-rand: #e9dbc8;
-  --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --t-schrift-titel: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --t-schrift: "Jost Variable", ui-sans-serif, system-ui, sans-serif;
+  --t-schrift-titel: "Fraunces Variable", ui-serif, Georgia, serif;
   --t-titel-gewicht: 400;
-  --t-titel-sperrung: -0.015em;
+  --t-titel-sperrung: -0.01em;
   --t-rundung: 999px;
 }
 
@@ -56,12 +75,10 @@
   --t-akzent: #d4af37;
   --t-akzent-text: #111216;
   --t-rand: #2b2e37;
-  --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --t-schrift-titel: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    Roboto, sans-serif;
+  --t-schrift: "Jost Variable", ui-sans-serif, system-ui, sans-serif;
+  --t-schrift-titel: "Jost Variable", ui-sans-serif, system-ui, sans-serif;
   --t-titel-gewicht: 300;
-  --t-titel-sperrung: 0.06em;
+  --t-titel-sperrung: 0.16em;
   --t-rundung: 0;
 }
 
@@ -93,6 +110,17 @@
   font-weight: var(--t-titel-gewicht);
   letter-spacing: var(--t-titel-sperrung);
   line-height: 1.05;
+}
+
+/* "Nacht" führt die Versalien des Aufmachers konsequent durch. Eine weite
+   Sperrung wirkt nur bei Großbuchstaben edel; in Gemischtschreibung sieht
+   sie nach auseinandergezogenem Text aus. */
+[data-theme="nacht"] .titel {
+  text-transform: uppercase;
+}
+[data-theme="nacht"] .titel--gemischt {
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
 
 /* Die Zeile über einer Überschrift: klein, gesperrt, in Akzentfarbe. */
