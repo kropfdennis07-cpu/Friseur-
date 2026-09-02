@@ -35,7 +35,7 @@ Rollen: Dennis codet nicht. Claude Code baut, schreibt, recherchiert, erstellt D
 | Marke | Eigener Name + Zusatz „Websites für Betriebe vor Ort"; Markenname optional später 💡 |
 | Änderungen | macht Dennis (in Claude Code, 2 Min.), kein Kunden-Editor 💡 |
 | Domain | Inhaber = Kunde, registriert und verwaltet über Dennis' Registrar-Konto ✅ |
-| Hosting | auf Dennis' Netlify-Konto, eine Site pro Kunde – keine Konten im Namen des Kunden ✅ |
+| Hosting | auf Dennis' Konto, eine Site pro Kunde – keine Konten im Namen des Kunden ✅. **Welcher Anbieter: offen** – Netlify Free scheidet aus, Vorschlag Cloudflare Pages, siehe 10.3 🙋 |
 | Technik | statisches Template (Astro + Tailwind), Hosting Netlify, Code auf GitHub 💡 |
 | Sprache | nur Deutsch |
 | Getrennt von | allen bestehenden Repos/Apps – eigenes, neues Repo ✅ |
@@ -59,14 +59,14 @@ Harte Regel: Keinerlei Daten, Kontakte oder Systeme aus dem Sparkassen-Job für 
 
 ### 2.2 Gewerbeanmeldung 🙋
 - **Wann:** formal mit Aufnahme der Tätigkeit (§ 14 GewO). Praktisch: am Tag des ersten Ja, jedenfalls vor Vertrag und Rechnung. Ein paar Wochen Sondierung vorher sind gängig; eine verspätete Anmeldung wäre höchstens eine Ordnungswidrigkeit (kein Rechtsrat).
-- **Wo:** Stadt Pfaffenhofen a. d. Ilm (Gewerbeamt), persönlich oder online. 🔎 Gebühr meist 20–60 €.
+- **Wo:** Stadt Pfaffenhofen a. d. Ilm (Gewerbeamt), persönlich oder online über das BayernPortal. **Gebühr 35 €** (geprüft 02.09.2026, siehe 10.2).
 - **Angaben:** Tätigkeit „Erstellung, Gestaltung und Pflege von Internetseiten sowie damit verbundene Dienstleistungen"; Nebenerwerb ankreuzen; Betriebsstätte = deine Wohnung in Pfaffenhofen; Rechtsform Einzelunternehmen.
 - Webdesign ist Gewerbe, nicht freiberuflich – also kein Weg am Gewerbeamt vorbei.
 - Kein Handelsregister nötig (Kleingewerbe).
 
 ### 2.3 Finanzamt 🙋
 - Innerhalb eines Monats nach Anmeldung: **Fragebogen zur steuerlichen Erfassung** über ELSTER (§ 138 AO). Du bekommst eine Steuernummer fürs Gewerbe.
-- **Kleinunternehmerregelung § 19 UStG** ankreuzen: keine Umsatzsteuer auf Rechnungen, keine USt-Voranmeldung. Grenzen (seit 2025): 25.000 € Vorjahresumsatz, 100.000 € laufendes Jahr; im Gründungsjahr gilt die 25.000-€-Grenze fürs laufende Jahr. 🔎 Mit 5 Kunden liegst du weit darunter.
+- **Kleinunternehmerregelung § 19 UStG** ankreuzen: keine Umsatzsteuer auf Rechnungen, keine USt-Voranmeldung. Grenzen (seit 2025): 25.000 € Vorjahresumsatz, 100.000 € laufendes Jahr; im Gründungsjahr wird die 25.000-€-Grenze anteilig gerechnet (Start September 2026 = vier Monate = 8.333 €, siehe 10.1). Mit 5 Kunden liegst du weit darunter.
 - Gewinn (Einnahmen minus Ausgaben, **EÜR**) kommt in deine private Einkommensteuererklärung (Anlage G + EÜR). Faustregel: vom Gewinn gehen dein persönlicher Grenzsteuersatz ab – bei deinem Gehalt grob 35–42 %.
 - Gewerbesteuer: Freibetrag 24.500 € Gewerbeertrag – irrelevant.
 - Belege sammeln: Domain, Visitenkarten, Fahrtkosten (0,30 €/km), anteilig Handy/Claude-Abo. Ordner oder einfacher Sheet reicht.
@@ -97,7 +97,8 @@ Hinweis: Vorlagen von Claude Code sind ein Startpunkt, kein Rechtsrat. Vor dem e
 - **Astro** (statischer Site-Generator, schnell, ein Repo, pro Kunde nur Daten) + **Tailwind CSS**.
 - **Ein Monorepo, viele Sites:** Kundendaten liegen in `kunden/<slug>/salon.json` + `kunden/<slug>/images/`. Build mit Umgebungsvariable `SITE=<slug>`. Pro Kunde eine Netlify-Site, die dasselbe GitHub-Repo mit anderem `SITE` baut. Template-Verbesserungen kommen so automatisch bei allen Kunden an.
 - **Branchenneutral bauen:** Das Template heißt intern „Betrieb vor Ort", Friseur ist das erste Branchen-Preset (Begriffe, Leistungsgruppen, Beispieltexte, Impressumsfelder). Spätere Presets (Kosmetik, Bäckerei, Café, Physio) kommen ohne Umbau dazu – jetzt aber nur Friseur ausbauen.
-- Hosting **Netlify auf Dennis' Konto** – eine Site pro Kunde, keine Konten im Namen des Kunden (Free/Starter reicht anfangs 🔎, Limits für Anzahl Sites und Bandbreite prüfen). Code auf **GitHub** (privates Repo).
+- Hosting auf **Dennis' Konto** – eine Site pro Kunde, keine Konten im Namen des Kunden. Code auf **GitHub** (privates Repo).
+  ⚠️ **Netlify Free trägt dieses Modell nicht** (Kreditsystem seit 09/2025, harte Grenze – Kundenseiten gehen bei Erschöpfung offline). Geprüft am 02.09.2026, Rechnung und Alternative in **10.3**. Vorschlag: **Cloudflare Pages** (unbegrenzte Bandbreite, 500 Builds/Monat). **Entscheidung offen 🙋** – am Template ändert sich dadurch nichts.
 - Keine Datenbank, kein CMS, kein Login. Änderungen = Datei anpassen + Push, macht Claude Code.
 - Bilder: WebP, max. 1.600 px Breite, per Build-Schritt automatisch optimiert.
 - Schriften **lokal** eingebunden (keine Google-Fonts-CDN → DSGVO-Abmahnrisiko).
@@ -141,7 +142,7 @@ Alle: mobil zuerst, große Buttons, Telefonnummer immer sichtbar, Lighthouse Mob
 Branche (Preset: friseur), Name, Claim, Theme, Logo (optional), Farben-Override, Adresse, Telefon, WhatsApp, E-Mail, Social-Links, Öffnungszeiten, Leistungen mit Preisen, Team, Über-uns-Text, Fotos (Dateinamen + Alt-Texte), Bewertungen (Sternewert, Anzahl, Zitate, Google-Link, Place-ID), Terminbuchung (Typ: link | telefon | whatsapp; URL), Sektionen an/aus, Impressumsdaten (Inhaber, Rechtsform, USt-IdNr. falls vorhanden, zuständige Handwerkskammer, Berufsbezeichnung „Friseurmeister/in", Berufsordnung: Handwerksordnung), Domain.
 
 ### 3.5 Recht auf den Kundenseiten (aus der Konfig generiert)
-- **Impressum § 5 DDG** (seit 2024 Nachfolger des TMG): Inhaber mit Vor-/Nachname, Anschrift, Telefon, E-Mail, USt-IdNr. falls vorhanden, Handwerkskammer (Oberbayern: HWK für München und Oberbayern; Lkr. Kelheim: HWK Niederbayern-Oberpfalz), Berufsbezeichnung + Handwerksordnung. Der frühere Link zur EU-OS-Plattform entfällt (Plattform 2025 eingestellt) 🔎; VSBG-Satz („nicht bereit/verpflichtet") optional.
+- **Impressum § 5 DDG** (seit 2024 Nachfolger des TMG): Inhaber mit Vor-/Nachname, Anschrift, Telefon, E-Mail, USt-IdNr. falls vorhanden, Handwerkskammer (Oberbayern: HWK für München und Oberbayern; Lkr. Kelheim: HWK Niederbayern-Oberpfalz), Berufsbezeichnung + Handwerksordnung. Der Link zur EU-OS-Plattform **entfällt und darf nicht mehr drinstehen** (Plattform seit 20.07.2025 abgeschaltet, geprüft 02.09.2026, siehe 10.5); VSBG-Satz („nicht bereit/verpflichtet") kommt freiwillig rein.
 - **Datenschutzerklärung Art. 13 DSGVO:** kurz, weil die Seite kaum Daten verarbeitet: Hosting (Netlify, Server-Logs), Kontakt per Telefon/WhatsApp/E-Mail, Links zu Google/Instagram/Buchungstool. Text von Claude Code generieren, einmal mit Generator (z. B. e-recht24) gegenprüfen.
 - **Keine Cookie-Einwilligung nötig**, weil nichts Externes geladen wird (§ 25 TDDDG) – das ist ein Verkaufsargument.
 - **Barrierefreiheit (BFSG seit 2025):** Kleinstunternehmen sind bei Dienstleistungen ausgenommen; trotzdem sauber bauen (Kontraste, Alt-Texte, Tastatur) – kostet nichts.
@@ -149,7 +150,7 @@ Branche (Preset: friseur), Name, Claim, Theme, Logo (optional), Farben-Override,
 
 ### 3.6 Google-Bewertungen – zwei Wege
 - **Standard (empfohlen für 3–5 Kunden):** Sternewert + Anzahl + 3–5 Zitate (Vorname, Datum, „Quelle: Google") manuell in die Konfig, Link zum Google-Profil. Alle 3 Monate beim Check aktualisieren. Kostet nichts, keine API.
-- **Upgrade (ab ~10 Kunden):** Places API zur Build-Zeit abrufen (liefert max. 5 Bewertungen, Attribution „Google" Pflicht), wöchentlicher Rebuild per Netlify Build Hook. 🔎 Kontingent/Preise prüfen. Script vorbereiten, aber nicht aktivieren.
+- **Upgrade (Places API): gestrichen am 02.09.2026.** Googles Bedingungen verbieten das Speichern von Places-Inhalten (nur die Place-ID darf bleiben) – genau das täte ein Build, der Bewertungen in eine statische Seite backt. Dazu 40 $ je 1.000 Abrufe für das Bewertungsfeld. Kein Script, auch nicht vorbereitet. Begründung und Quelle in **10.6**.
 
 ### 3.7 Lokales SEO (eingebaut, nicht als Extra)
 - Title/Description mit „Friseur [Ort]", H1 mit Salonname + Ort.
@@ -240,7 +241,7 @@ Salonname · Inhaber · Adresse · Telefon · WhatsApp-Nummer · E-Mail · Öffn
 2. Fototermin (30–45 Min.) + Foto-Einwilligungen.
 3. Build in Claude Code: `neuer-kunde <slug>`, Konfig füllen, Fotos einspielen, Netlify-Site anlegen (1–2 Std.).
 4. Vorschau-Link an Kunden, eine Korrekturrunde (Kunde hat 7 Tage).
-5. Domain registrieren (Inhaber = Kunde, Registrar-Konto von Dennis 🔎 z. B. INWX/netcup), DNS auf Netlify, HTTPS automatisch.
+5. Domain registrieren (**Inhaber = Kunde**, Registrar-Konto von Dennis; Empfehlung **INWX**, ~5–7 €/Jahr, siehe 10.4), DNS auf den Hoster, HTTPS automatisch.
 6. Go-live + Website ins Google-Unternehmensprofil eintragen + Instagram-Bio-Link setzen.
 7. Rechnung mit dem Go-live: Einmalbetrag (79 € / Pilot 49 €) plus Dauerrechnung für die Pflege (12 × 39 € / 12 × 19 €), jährlich im Voraus oder monatlich per Dauerauftrag. Pilot: zusätzlich den Google-Bewertungslink per WhatsApp schicken und freundlich um die Bewertung bitten.
 8. `kunden/<slug>/notizen.md`: Datum Go-live, Besonderheiten, nächster Check.
@@ -285,18 +286,189 @@ Fazit: Mit 3–5 Kunden bleibt es ein Taschengeld – das Modell rechnet sich ab
 
 ---
 
-## 10. 🔎 Vor Start prüfen (Claude Code recherchiert im Web und aktualisiert dieses Dokument)
+## 10. Vor Start prüfen — erledigt am 02.09.2026
 
-1. Kleinunternehmergrenzen aktuell (25.000 € / 100.000 €) und Regel im Gründungsjahr.
-2. Gewerbeanmeldung Stadt Pfaffenhofen: online möglich? Gebühr? Formular.
-3. Netlify: aktuelle Free-/Starter-Limits, kommerzielle Nutzung, Build-Minuten für ~10 Sites.
-4. Domain-Registrar mit Inhaber-Übertragung (INWX, netcup, IONOS): .de-Preis, API.
-5. Stand Impressumspflichten 2026 (§ 5 DDG), OS-Plattform-Link, VSBG-Satz.
-6. Google Places API: Bewertungen-Feld, Kontingent, Attributionsregeln – nur für das Upgrade.
-7. Verbreitete Terminbuchungstools bei Friseuren 2026 (Treatwell, Shore, Planity, Salonkee, Timify u. a.) und ob sie einen reinen Buchungslink anbieten.
-8. Marktpreise: Baukästen (Jimdo, Wix, IONOS) und Website-Miete-Anbieter für Kleinbetriebe – Plausibilität von 79 € / 39 €/Monat.
-9. Verfügbarkeit dennis-[nachname].de / [nachname]-web.de (und ggf. neutrale Markennamen).
-10. Lizenz der Stockfotos für den Demo-Salon (Unsplash/Pexels – gewerblich frei, Attribution?).
+Alle zehn Punkte recherchiert. **Zwei Ergebnisse ändern etwas am Plan**
+(Punkt 3 und Punkt 6), der Rest bestätigt ihn.
+
+### 10.1 Kleinunternehmergrenzen ✅ bestätigt
+25.000 € Vorjahresumsatz und 100.000 € laufendes Jahr, beide Bedingungen
+zusammen, seit 01.01.2025. **Im Gründungsjahr wird die 25.000 € anteilig
+gerechnet:** Gründung im September 2026 = vier Monate = 8.333 € erlaubt.
+Wird die 100.000 € gerissen, ist schon der Umsatz steuerpflichtig, mit dem
+sie gerissen wird — nicht erst der des Folgejahrs.
+Für 3–5 Kunden vollkommen irrelevant; die Regel greift nie.
+Quelle: [IHK Region Stuttgart](https://www.ihk.de/stuttgart/fuer-unternehmen/recht-und-steuern/steuerrecht/umsatzsteuer-national/kleinunternehmerregelung-in-der-umsatzsteuer-1843632)
+
+### 10.2 Gewerbeanmeldung Pfaffenhofen ✅ bestätigt
+**35 €** für Einzelunternehmen (Ummeldung/Abmeldung 30 €). Online möglich
+über das BayernPortal — dort ausfüllen, PDF erzeugen, elektronisch oder
+auf Papier ans Bürgerbüro der Stadt Pfaffenhofen. Formular liegt auch im
+Download-Bereich von pfaffenhofen.de.
+Damit ist die Schätzung „20–60 €" durch 35 € ersetzt.
+Quellen: [Stadt Pfaffenhofen](https://pfaffenhofen.de/artikel/gewerbe-an-ab-und-ummeldungen/) ·
+[BayernPortal](https://www.bayernportal.de/dokumente/leistung/762865582502?plz=85276&behoerde=23442297463&gemeinde=610968773673)
+
+### 10.3 Netlify ⚠️ **ÄNDERT DEN PLAN — Entscheidung nötig**
+Netlify hat am 04.09.2025 auf ein Kreditsystem umgestellt und am
+14.04.2026 nachgeschärft. Der kostenlose Tarif hat **300 Credits im Monat
+mit harter Grenze** (kein Nachladen möglich):
+
+| Verbrauch | Kosten |
+|---|---|
+| ein Produktions-Deploy | 15 Credits |
+| Bandbreite | 20 Credits je GB |
+| Web-Anfragen | 2 Credits je 10.000 |
+
+Was das für dieses Modell heißt, durchgerechnet:
+
+- Eine Friseurseite mit ~2.000 Besuchen im Monat verbraucht grob 2 GB =
+  **40 Credits allein an Bandbreite**.
+- **Bei 5 Kunden** sind das 200 Credits nur fürs Ausliefern. Es bleiben
+  100 Credits = **6 Deploys im Monat für alle Sites zusammen.** Die Zusage
+  „Änderungen am selben Werktag" ist damit nicht haltbar.
+- **Bei 10 Kunden** ist das Kontingent allein durch Besucher aufgebraucht.
+
+**Und die harte Grenze ist das eigentliche Problem:** Ist das Kontingent
+weg, geht die Seite eines zahlenden Kunden offline, bis der Monat
+umspringt. Ein Kunde, der 39 €/Monat zahlt und dessen Seite am 20. des
+Monats tot ist, ist ein verlorener Kunde plus eine schlechte Bewertung im
+Ort — genau das Gegenteil des Ziels.
+
+**Die Alternative: Cloudflare Pages.** Kostenlos, und zwar dauerhaft
+passend zu diesem Modell:
+
+| | Netlify Free | Cloudflare Pages Free |
+|---|---|---|
+| Bandbreite | 20 Credits/GB, hart gedeckelt | **unbegrenzt** |
+| Builds | 15 Credits pro Deploy (≈20/Monat gesamt) | **500 im Monat** |
+| Sites | aus demselben Topf | **unbegrenzt** |
+| Eigene Domains | — | 100 pro Projekt |
+| Bei Überschreitung | **Seite offline** | Nachfrage nach Upgrade |
+
+Cloudflare deckelt die Bandbreite nicht hart, sondern bittet bei
+unangemessener Last um ein Upgrade — statt abzuschalten.
+
+**🙋 Deine Entscheidung, weil es um Geld und ein Versprechen an Kunden
+geht:** Cloudflare Pages statt Netlify? Technisch ist es für uns dasselbe
+(statische Dateien, Git-Anbindung, kostenloses SSL, eigene Domains), das
+Template ändert sich dadurch nicht. Empfehlung: ja, wechseln — und zwar
+jetzt, solange noch kein Kunde drauf liegt.
+Quellen: [Netlify Docs — Credit-based pricing](https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/credit-based-pricing-plans/) ·
+[Cloudflare Pages Limits](https://developers.cloudflare.com/pages/platform/limits/)
+
+### 10.4 Domain-Registrar ✅ geklärt
+**.de-Domain kostet 5–7 € im Jahr** bei netcup (≈0,42 €/Monat) oder INWX
+(≈0,50 €/Monat). Beide taugen; INWX hat die bessere API und ist bei
+Wiederverkäufern verbreitet, netcup ist einen Tick billiger.
+united-domains verlangt keine Transfergebühr und macht Inhaberwechsel
+kostenlos — teurer im laufenden Preis, aber der sauberste Ausstieg.
+
+Für die Exit-Regel im Vertrag („Kunde nimmt die Domain mit") ist wichtig,
+dass der Kunde als **Inhaber (Domain-Owner)** eingetragen ist und Dennis
+nur als administrativer Kontakt. Das können alle drei.
+Empfehlung: **INWX**, wegen API (später automatisch anlegen) und
+etabliertem Inhaberwechsel.
+Quellen: [hosttest.de Preisvergleich](https://www.hosttest.de/vergleich/de-domain.html) ·
+[EXPERTE.de](https://www.experte.de/domains/de)
+
+### 10.5 Impressum 2026 ✅ bestätigt, mit einer Korrektur
+§ 5 DDG hat § 5 TMG abgelöst; die Pflichtangaben sind inhaltlich
+unverändert, nur „Telemedien" heißt jetzt „digitale Dienste".
+
+**Der OS-Plattform-Link ist seit dem 20.07.2025 endgültig weg** — die EU
+hat die Plattform eingestellt. Er darf nicht mehr im Impressum stehen: ein
+Link auf eine tote Pflichtangabe ist selbst wieder angreifbar. Der
+VSBG-Satz („nicht bereit und nicht verpflichtet, an einem
+Streitbeilegungsverfahren teilzunehmen") bleibt freiwillig und schadet
+nicht — kommt bei uns rein.
+
+Fehlende oder falsche Angaben sind eine Ordnungswidrigkeit nach § 33 DDG.
+Der Generator muss also vollständig sein, nicht nur hübsch.
+Quellen: [IHK Chemnitz](https://www.ihk.de/chemnitz/recht-und-steuern/rechtsinformationen/internetrecht/pflichtangaben-im-internet-die-impressumspflicht-4401580) ·
+[Handelskammer Hamburg](https://www.handelskammer-hamburg.de/innovation-neue-maerkte/digitalisierung/impressumspflicht-6787984)
+
+### 10.6 Google Places API ⚠️ **Upgrade fällt weg**
+- Das Feld mit Bewertungen liegt in der teuersten Stufe: **40 $ je 1.000
+  Abrufe**, Freikontingent dort nur ~1.000 Abrufe im Monat. Maximal
+  5 Bewertungen je Ort.
+- **Entscheidend: Googles Bedingungen verbieten das Zwischenspeichern von
+  Places-Inhalten.** Dauerhaft speichern darf man nur die Place-ID.
+  Genau das würde der geplante Weg aber tun — Bewertungen zur Build-Zeit
+  abrufen und in eine statische Seite backen ist Speicherung.
+- Attribution („Google") ist bei Bewertungen Pflicht.
+
+**Folge: Das Upgrade aus 3.6 wird nicht gebaut, auch nicht vorbereitet.**
+Der Standardweg bleibt — Sternewert, Anzahl und 3–5 Zitate manuell in die
+Konfig, mit Quellenangabe und Link aufs Google-Profil, alle drei Monate
+beim Check aktualisiert. Das ist kein Notbehelf, sondern der einzige
+saubere Weg.
+Quelle: [Google Places API — Usage and Billing](https://developers.google.com/maps/documentation/places/web-service/usage-and-billing)
+
+### 10.7 Terminbuchungstools bei Friseuren ✅ geklärt
+Verbreitet 2026: **Treatwell** (39 €/Monat plus Provision), **Shore** (ab
+39,90 €/Monat), **Salonkee** (ab 49 €/Monat plus 499 € Einrichtung),
+**Planity** (ab 69 €/Monat), dazu Fresha und Cituro.
+
+**Alle bieten einen direkten Buchungslink**, den man auf einer Website
+verlinken kann — genau das, was der Plan vorsieht (Button in neuem Tab,
+kein iFrame). Die Annahme aus Abschnitt 0.5 trägt also.
+
+Nebenbefund fürs Verkaufsgespräch: Viele Salons zahlen für so ein Tool
+schon 40–70 € im Monat. 39 € für die komplette Website daneben wirkt in
+dem Vergleich klein — das ist ein Argument, kein Einwand.
+Quellen: [studiolution Vergleich 2026](https://www.studiolution.com/vergleich/) ·
+[Shore](https://www.shore.com/us/industries/hair-salon-software)
+
+### 10.8 Marktpreise ✅ Preis ist plausibel — eher zu niedrig
+| Weg | Was der Markt nimmt |
+|---|---|
+| Baukasten (Wix, Jimdo, IONOS, Strato) | 15–50 €/Monat, Arbeit macht der Kunde |
+| Freelancer | 800–2.500 € einmalig, Betreuung 49–99 €/Monat |
+| Agentur-Mietmodell | 149–399 €/Monat |
+
+**79 € einmalig + 39 €/Monat liegt unter dem billigsten Betreuungsangebot
+am Markt** und auf Baukasten-Niveau — obwohl der Kunde bei uns gar nichts
+selbst machen muss. Der Preis ist nicht zu hoch, er ist gut verteidigbar.
+
+Die Einwandbehandlung „Zu teuer" im Pitch stimmt damit sachlich; die
+genannten 2.000–4.000 € für eine Agentur sind für eine einmalige Website
+realistisch, das Mietmodell liegt bei 149–399 €/Monat.
+Quellen: [websitewissen.com](https://websitewissen.com/handwerker-website) ·
+[webu.at](https://webu.at/blog/website-mieten/)
+
+### 10.9 Domain-Verfügbarkeit ⏸️ wartet auf dich 🙋
+Kann ich nicht prüfen — dein Nachname steht nirgends im Fahrplan. Sag ihn
+mir, dann prüfe ich `dennis-[nachname].de` und `[nachname]-web.de` sowie
+zwei, drei neutrale Alternativen.
+
+### 10.10 Stockfotos für den Demo-Salon ✅ bestätigt
+**Unsplash und Pexels erlauben beide die kommerzielle Nutzung ohne
+Namensnennung.** Für den Demo-Salon „Salon Anna" also unbedenklich.
+
+Zwei Grenzen, die eingehalten werden: Bilder dürfen nicht unbearbeitet
+weiterverkauft werden, und man darf keine konkurrierende Bilddatenbank
+daraus bauen — beides betrifft uns nicht.
+
+Trotzdem gilt weiter: **Auf echten Kundenseiten keine Stockfotos.** Ein
+Friseursalon mit Model-Fotos aus New York fällt in einer Kleinstadt sofort
+auf und beschädigt genau das Vertrauen, das die Seite herstellen soll.
+Stockfotos nur im Demo und in Lead-Vorschauen, dort mit Hinweisbanner.
+Quellen: [Unsplash Lizenz](https://unsplash.com/de/lizenz) ·
+[Pexels Lizenz](https://www.pexels.com/license/)
+
+---
+
+### Was sich am Plan ändert
+
+1. **Hosting:** Netlify Free trägt dieses Modell nicht (harte Grenze,
+   Seiten gehen offline). Vorschlag Cloudflare Pages — **deine
+   Entscheidung**, siehe 10.3.
+2. **Bewertungs-Upgrade (3.6):** entfällt ersatzlos, Googles Bedingungen
+   verbieten es. Der manuelle Weg bleibt.
+3. **Gewerbeanmeldung:** 35 €, nicht „20–60 €".
+4. **Impressum:** kein OS-Plattform-Link mehr, VSBG-Satz freiwillig drin.
+5. **Preis:** bestätigt, eher am unteren Rand des Marktes.
 
 ---
 
