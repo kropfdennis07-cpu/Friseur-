@@ -6,60 +6,92 @@ Stand: 02.09.2026 · Woche 1 von 12
 
 ## Wo wir stehen
 
-Tag 1. Das Repo war leer, jetzt liegt der Fahrplan drin und ist damit
-gesichert — vorher gab es ihn nur einmal auf Dennis' Rechner.
+Das Repo war heute früh leer. Jetzt liegt der Fahrplan drin, die Recherche
+ist abgearbeitet, und **das Template baut die erste vollständige Seite** —
+Demo-Salon „Salon Anna – Pfaffenhofen", am Handy und am Rechner geprüft.
 
-**Phase 1 (Template) hat begonnen.** Noch kein Kunde, noch keine Formalien
-— beides ist laut Fahrplan auch richtig so: Die Anzeige an die Sparkasse
-und die Gewerbeanmeldung werden erst fällig, wenn der erste Salon Ja sagt.
+Noch kein Kunde, noch keine Formalien. Das ist laut Fahrplan richtig so:
+Anzeige an die Sparkasse und Gewerbeanmeldung werden erst fällig, wenn der
+erste Salon Ja sagt.
 
 ---
 
 ## Erledigt
 
 - [x] Repo angelegt, Fahrplan gesichert, Arbeitsregeln als `CLAUDE.md`
+- [x] Alle zehn Recherchepunkte aus Abschnitt 10 — Ergebnisse mit Quelle
+      im Fahrplan, zwei davon ändern den Plan (Hosting, Bewertungen)
+- [x] Astro + Tailwind, Konfigschema `salon.json` (branchenneutral, Preset
+      Friseur), Prüfung, die den Build bei Lücken abbricht
+- [x] Theme „Klar", Sektionen Hero, Leistungen und Preise, Öffnungszeiten,
+      Kontakt
+- [x] Impressum (§ 5 DDG) und Datenschutz (Art. 13 DSGVO) — beide aus der
+      Konfig erzeugt, ohne den abgeschalteten OS-Plattform-Link
+- [x] Demo-Salon mit erfundenen Daten
+- [x] **Null externe Ladevorgänge im Browser gemessen** — die Grundlage für
+      „kein Cookie-Banner nötig"
+- [x] `scripts/neuer-kunde.mjs` legt Kunden und Lead-Vorschauen an
 
 ---
 
 ## Offen — in dieser Reihenfolge
 
-- [ ] Recherchepunkte aus Fahrplan Abschnitt 10 (10 Stück) abarbeiten
-- [ ] Astro + Tailwind aufsetzen, `salon.json`-Schema nach 3.4
-- [ ] Theme „Klar", Sektionen Hero + Leistungen + Kontakt
-- [ ] Demo-Salon „Salon Anna – Pfaffenhofen" mit erfundenen Daten
-- [ ] Restliche Sektionen, Themes „Warm" + „Nacht"
-- [ ] Impressum- und Datenschutz-Generator aus der Konfig
-- [ ] Script `neuer-kunde <slug>`
+- [ ] Bildplatz im Hero + Bildoptimierung (WebP, max. 1.600 px)
+- [ ] Restliche Sektionen: Über uns/Team, Galerie, Bewertungen
+- [ ] Themes „Warm" und „Nacht" ausbauen und am Handy prüfen
+- [ ] Lighthouse-Messung (Ziel: Mobile ≥ 95)
+- [ ] Demo live stellen — **braucht die Hosting-Entscheidung, siehe unten**
+- [ ] Danach Phase 2: eigene Landingpage, Flyer, Vertragspaket
 
 ---
 
 ## Nächster Schritt für Dennis 🙋
 
-**Nichts Dringendes.** Solange am Template gebaut wird, musst du nichts tun.
+**Eine Entscheidung, zwei Kleinigkeiten.**
 
-Zwei Dinge, sobald du dazu kommst — beide blockieren gerade nichts, aber
-ohne sie geht die Demo nicht live:
+### 1. Hosting: Netlify oder Cloudflare Pages? ⚠️ blockiert die Demo
 
-1. **Netlify-Konto anlegen** (kostenlos, mit deiner privaten Mailadresse,
-   nicht mit der Dienst-Mail). Ohne das kann die Demo nicht ins Netz.
-   Laut Zeitplan erst Woche 4 — geht aber jederzeit vorher.
-2. **Nachname freigeben.** Für Domain und Impressum deiner eigenen Seite
-   steht im Fahrplan `dennis-[nachname].de`. Sag Bescheid, wenn ich die
-   Verfügbarkeit prüfen soll.
+Netlify hat sein kostenloses Angebot umgestellt und passt nicht mehr zum
+Modell. Kurz: 300 Credits im Monat, ein Deploy kostet 15, jedes Gigabyte
+Besucherverkehr 20 — **mit harter Grenze**. Bei fünf Kunden ist das
+Kontingent überwiegend von Besuchern aufgebraucht; und ist es weg, geht
+die Seite eines zahlenden Kunden bis zum Monatswechsel **offline**.
+
+Cloudflare Pages: unbegrenzter Verkehr, 500 Builds im Monat, unbegrenzt
+Seiten, kostenlos. Bei zu viel Last fragen sie nach einem Upgrade, statt
+abzuschalten.
+
+Für uns ist es technisch dasselbe — am Template ändert sich nichts.
+**Empfehlung: Cloudflare Pages, und zwar jetzt, solange kein Kunde
+drauf liegt.** Rechnung und Quellen stehen im Fahrplan unter 10.3.
+
+### 2. Konto anlegen
+
+Sobald die Entscheidung steht: Konto beim gewählten Anbieter, mit deiner
+privaten Mailadresse. Dann geht die Demo live und du hast den Link fürs
+Handy.
+
+### 3. Dein Nachname
+
+Für `dennis-[nachname].de`. Sag ihn mir, dann prüfe ich, was frei ist —
+inklusive ein paar neutraler Alternativen.
 
 ---
 
 ## Offene Fragen
 
-| | Frage | Warum sie wartet |
+| | Frage | Blockiert |
 |---|---|---|
-| F1 | Wie heißt du mit Nachnamen, und soll die Domain `dennis-[nachname].de` oder `[nachname]-web.de` heißen? | Betrifft nur deine eigene Seite (Phase 2), nicht das Template |
-| F2 | Netlify-Konto vorhanden? | Erst nötig, wenn die Demo live gehen soll |
+| F1 | Netlify oder Cloudflare Pages? (Empfehlung: Cloudflare) | die Demo live |
+| F2 | Nachname für die eigene Domain | Phase 2 |
+| F3 | Design: passt „Klar" so, oder soll es wärmer/dunkler? | nichts — Bild siehst du im Chat |
 
 ---
 
 ## Was hier NICHT passiert
 
-Zur Erinnerung an spätere Sitzungen: Keine Formalien anstoßen, kein
-Vertrag, keine Akquise-Aktion, bevor in diesem Dokument **„Erstes Ja"**
-steht. Bis dahin wird nur gebaut und vorbereitet.
+Keine Formalien, kein Vertrag, keine Akquise, bevor in diesem Dokument
+**„Erstes Ja"** steht. Bis dahin wird nur gebaut und vorbereitet.
+
+Und: keine Stockfotos auf echten Kundenseiten. Nur im Demo und in
+Lead-Vorschauen, dort mit Hinweisbanner.
