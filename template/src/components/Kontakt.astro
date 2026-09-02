@@ -1,0 +1,132 @@
+---
+/**
+ * Öffnungszeiten, Anfahrt und Kontakt.
+ *
+ * Bewusst OHNE eingebettete Google-Karte: ein Maps-iFrame lädt
+ * Google-Scripts und macht aus einer bannerfreien Seite eine mit
+ * Einwilligungspflicht. Stattdessen Adresse im Klartext plus ein Knopf,
+ * der die Route in der Karten-App des Besuchers öffnet.
+ */
+import type { Salon } from "../lib/salon";
+import { telLink, telefonText, whatsappLink, routeLink } from "../lib/salon";
+
+interface Props {
+  salon: Salon;
+}
+const { salon } = Astro.props;
+const wa = whatsappLink(salon.kontakt);
+const heute = new Date().toLocaleDateString("de-DE", { weekday: "long" });
+---
+
+<section id="kontakt" class="scroll-mt-16 bg-grund-sanft">
+  <div class="mx-auto grid max-w-5xl gap-10 px-4 py-14 sm:grid-cols-2">
+    <div>
+      <h2 class="font-titel text-3xl font-bold tracking-tight">Öffnungszeiten</h2>
+      <table class="mt-6 w-full text-left">
+        <tbody>
+          {
+            salon.oeffnungszeiten.map((z) => {
+              const istHeute = z.tag === heute;
+              const zu = /geschlossen/i.test(z.zeit);
+              return (
+                <tr class="border-b border-rand last:border-0">
+                  <th
+                    scope="row"
+                    class={`py-2 pr-4 font-normal ${istHeute ? "font-semibold text-akzent" : ""}`}
+                  >
+                    {z.tag}
+                    {istHeute && <span class="ml-2 text-xs uppercase tracking-wide">heute</span>}
+                  </th>
+                  <td class={`py-2 text-right ${zu ? "text-text-leise" : ""}`}>{z.zeit}</td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <h2 class="font-titel text-3xl font-bold tracking-tight">So erreichst du uns</h2>
+
+      <address class="mt-6 not-italic leading-relaxed">
+        <strong class="font-semibold">{salon.name}</strong><br />
+        {salon.adresse.strasse}<br />
+        {salon.adresse.plz} {salon.adresse.ort}
+      </address>
+
+      {
+        salon.adresse.parkenHinweis && (
+          <p class="mt-2 text-sm text-text-leise">{salon.adresse.parkenHinweis}</p>
+        )
+      }
+
+      <div class="mt-6 flex flex-col gap-3">
+        <a
+          href={telLink(salon.kontakt)}
+          class="rounded-eigen bg-akzent px-5 py-3 text-center font-semibold text-akzent-text hover:opacity-90"
+        >
+          {telefonText(salon.kontakt)}
+        </a>
+
+        {
+          wa && (
+            <a
+              href={wa}
+              target="_blank"
+              rel="noopener"
+              class="rounded-eigen border-2 border-akzent px-5 py-3 text-center font-semibold text-akzent hover:bg-akzent hover:text-akzent-text"
+            >
+              Nachricht per WhatsApp
+            </a>
+          )
+        }
+
+        <a
+          href={routeLink(salon.adresse)}
+          target="_blank"
+          rel="noopener"
+          class="rounded-eigen border border-rand px-5 py-3 text-center font-semibold hover:border-akzent"
+        >
+          Route öffnen
+        </a>
+      </div>
+
+      <ul class="mt-6 space-y-2 text-sm">
+        <li>
+          <a href={`mailto:${salon.kontakt.email}`} class="underline hover:no-underline">
+            {salon.kontakt.email}
+          </a>
+        </li>
+        {
+          salon.social?.instagram && (
+            <li>
+              <a
+                href={salon.social.instagram}
+                target="_blank"
+                rel="noopener"
+                class="underline hover:no-underline"
+              >
+                Instagram
+              </a>
+            </li>
+          )
+        }
+        {
+          salon.social?.facebook && (
+            <li>
+              <a
+                href={salon.social.facebook}
+                target="_blank"
+                rel="noopener"
+                class="underline hover:no-underline"
+              >
+                Facebook
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+  </div>
+</section>

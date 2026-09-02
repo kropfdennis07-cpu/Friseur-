@@ -1,0 +1,39 @@
+---
+/**
+ * Preise. Laut Fahrplan die Sektion, nach der wirklich gesucht wird —
+ * deshalb steht sie direkt unter dem Aufmacher und nicht am Seitenende.
+ */
+import type { Salon } from "../lib/salon";
+
+interface Props {
+  salon: Salon;
+}
+const { salon } = Astro.props;
+---
+
+<section id="leistungen" class="scroll-mt-16 border-b border-rand">
+  <div class="mx-auto max-w-5xl px-4 py-14">
+    <h2 class="font-titel text-3xl font-bold tracking-tight">Leistungen und Preise</h2>
+    <p class="mt-2 text-text-leise">
+      Alle Preise verstehen sich ab-Preise. Was genau nötig ist, besprechen wir vor Ort.
+    </p>
+
+    <div class="mt-10 grid gap-8 sm:grid-cols-2">
+      {
+        salon.leistungen.map((gruppe) => (
+          <div class="rounded-eigen border border-rand bg-grund p-5">
+            <h3 class="font-titel text-xl font-semibold">{gruppe.gruppe}</h3>
+            <dl class="mt-4 space-y-3">
+              {gruppe.posten.map((posten) => (
+                <div class="flex items-baseline justify-between gap-4 border-b border-rand pb-3 last:border-0 last:pb-0">
+                  <dt class="text-text">{posten.name}</dt>
+                  <dd class="shrink-0 font-semibold text-akzent">{posten.preis}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────
+   DIE DREI THEMES
+
+   Jedes Theme setzt dieselben acht Variablen. Welches gilt, entscheidet
+   data-theme am <html> — gesetzt aus salon.json.
+
+   Schriften sind bewusst System-Schriften: keine Google-Fonts-CDN, keine
+   Webfont-Datei, kein externer Request. Das ist keine Sparmaßnahme,
+   sondern die Grundlage für "kein Cookie-Banner nötig" — und es lädt
+   sofort, auch im Funkloch zwischen Wolnzach und Mainburg.
+   ───────────────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme="klar"] {
+  --t-grund: #ffffff;
+  --t-grund-sanft: #f6f7f5;
+  --t-text: #1b1d1a;
+  --t-text-leise: #5c625a;
+  --t-akzent: #4d6650;
+  --t-akzent-text: #ffffff;
+  --t-rand: #e3e6e1;
+  --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --t-schrift-titel: var(--t-schrift);
+  --t-rundung: 0.5rem;
+}
+
+[data-theme="warm"] {
+  --t-grund: #fdfaf5;
+  --t-grund-sanft: #f4ece1;
+  --t-text: #2e2620;
+  --t-text-leise: #665849;
+  --t-akzent: #8a5d38;
+  --t-akzent-text: #ffffff;
+  --t-rand: #e8dccc;
+  --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --t-schrift-titel: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --t-rundung: 0.75rem;
+}
+
+[data-theme="nacht"] {
+  --t-grund: #14151a;
+  --t-grund-sanft: #1d1f26;
+  --t-text: #f2f1ee;
+  --t-text-leise: #b3b1a9;
+  --t-akzent: #d4af37;
+  --t-akzent-text: #14151a;
+  --t-rand: #2c2f38;
+  --t-schrift: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --t-schrift-titel: var(--t-schrift);
+  --t-rundung: 0.25rem;
+}
+
+@theme inline {
+  --color-grund: var(--t-grund);
+  --color-grund-sanft: var(--t-grund-sanft);
+  --color-text: var(--t-text);
+  --color-text-leise: var(--t-text-leise);
+  --color-akzent: var(--t-akzent);
+  --color-akzent-text: var(--t-akzent-text);
+  --color-rand: var(--t-rand);
+  --font-sans: var(--t-schrift);
+  --font-titel: var(--t-schrift-titel);
+  --radius-eigen: var(--t-rundung);
+}
+
+/* ─── Grundlagen ──────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--t-grund);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--t-grund);
+  color: var(--t-text);
+  font-family: var(--t-schrift);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Tastaturbedienung sichtbar lassen — Barrierefreiheit kostet hier nichts. */
+:focus-visible {
+  outline: 3px solid var(--t-akzent);
+  outline-offset: 2px;
+}
+
+/* Sprungmarke für Screenreader und Tastatur. */
+.sprungmarke {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--t-akzent);
+  color: var(--t-akzent-text);
+}
+.sprungmarke:focus {
+  left: 0;
+}

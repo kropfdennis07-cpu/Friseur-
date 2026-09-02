@@ -1,0 +1,15 @@
+---
+import Basis from "../layouts/Basis.astro";
+import Hero from "../components/Hero.astro";
+import Leistungen from "../components/Leistungen.astro";
+import Kontakt from "../components/Kontakt.astro";
+import { ladeSalon } from "../lib/salon";
+
+const salon = ladeSalon();
+---
+
+<Basis salon={salon}>
+  <Hero salon={salon} />
+  {salon.sektionen.leistungen && <Leistungen salon={salon} />}
+  <Kontakt salon={salon} />
+</Basis>

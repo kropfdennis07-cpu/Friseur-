@@ -1,0 +1,72 @@
+---
+/**
+ * Impressum nach § 5 DDG, vollständig aus salon.json erzeugt.
+ *
+ * Der Link zur EU-Streitbeilegungsplattform steht hier BEWUSST NICHT:
+ * Die Plattform ist seit dem 20.07.2025 abgeschaltet, ein Link darauf
+ * wäre eine irreführende Pflichtangabe (siehe FAHRPLAN 10.5).
+ */
+import Basis from "../../layouts/Basis.astro";
+import { ladeSalon, telefonText } from "../../lib/salon";
+
+const salon = ladeSalon();
+const i = salon.impressum;
+---
+
+<Basis
+  salon={salon}
+  titel={`Impressum – ${salon.name}`}
+  beschreibung={`Impressum und Anbieterkennzeichnung von ${salon.name} in ${salon.adresse.ort}.`}
+  anrufleiste={false}
+>
+  <div class="mx-auto max-w-2xl px-4 py-14">
+    <h1 class="font-titel text-3xl font-bold tracking-tight">Impressum</h1>
+
+    <h2 class="mt-10 font-titel text-xl font-semibold">Angaben gemäß § 5 DDG</h2>
+    <p class="mt-3 leading-relaxed">
+      {salon.name}<br />
+      {i.inhaber}<br />
+      {salon.adresse.strasse}<br />
+      {salon.adresse.plz} {salon.adresse.ort}
+    </p>
+
+    <h2 class="mt-8 font-titel text-xl font-semibold">Kontakt</h2>
+    <p class="mt-3 leading-relaxed">
+      Telefon: <a href={`tel:${salon.kontakt.telefon.replace(/[^\d+]/g, "")}`} class="underline">{telefonText(salon.kontakt)}</a><br />
+      E-Mail: <a href={`mailto:${salon.kontakt.email}`} class="underline">{salon.kontakt.email}</a>
+    </p>
+
+    <h2 class="mt-8 font-titel text-xl font-semibold">Vertreten durch</h2>
+    <p class="mt-3">{i.inhaber}{i.rechtsform ? ` (${i.rechtsform})` : ""}</p>
+
+    {i.ustIdNr && (
+      <>
+        <h2 class="mt-8 font-titel text-xl font-semibold">Umsatzsteuer-Identifikationsnummer</h2>
+        <p class="mt-3">Gemäß § 27 a Umsatzsteuergesetz: {i.ustIdNr}</p>
+      </>
+    )}
+
+    <h2 class="mt-8 font-titel text-xl font-semibold">Berufsrechtliche Angaben</h2>
+    <p class="mt-3 leading-relaxed">
+      Berufsbezeichnung: {i.berufsbezeichnung}<br />
+      Verliehen in: {i.verliehenIn || "Deutschland"}<br />
+      Zuständige Kammer: {i.handwerkskammer}<br />
+      Es gilt die {i.berufsordnung}
+    </p>
+
+    <h2 class="mt-8 font-titel text-xl font-semibold">Verbraucherstreitbeilegung</h2>
+    <p class="mt-3 leading-relaxed">
+      Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor
+      einer Verbraucherschlichtungsstelle teilzunehmen.
+    </p>
+
+    <h2 class="mt-8 font-titel text-xl font-semibold">Verantwortlich für den Inhalt</h2>
+    <p class="mt-3 leading-relaxed">
+      {i.inhaber}, {salon.adresse.strasse}, {salon.adresse.plz} {salon.adresse.ort}
+    </p>
+
+    <p class="mt-12">
+      <a href="/" class="underline hover:no-underline">Zurück zur Startseite</a>
+    </p>
+  </div>
+</Basis>

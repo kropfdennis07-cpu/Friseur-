@@ -1,0 +1,166 @@
+---
+/**
+ * Das Gerüst jeder Seite: Kopf, strukturierte Daten, Anrufleiste, Fuß.
+ *
+ * Absichtlich ohne einen einzigen externen Request — keine Schriften von
+ * Google, keine Karte, kein Zählpixel. Das ist die Bedingung dafür, dass
+ * die Seite ohne Cookie-Banner auskommt (§ 25 TDDDG).
+ */
+import type { Salon } from "../lib/salon";
+import { telLink, telefonText, terminZiel, nurZiffern } from "../lib/salon";
+import "../styles/global.css";
+
+interface Props {
+  salon: Salon;
+  /** Überschreibt den Titel; sonst "Friseur <Ort> – <Name>". */
+  titel?: string;
+  beschreibung?: string;
+  /** Unterseiten wie Impressum brauchen die Anrufleiste nicht. */
+  anrufleiste?: boolean;
+}
+
+const { salon, titel, beschreibung, anrufleiste = true } = Astro.props;
+
+const ort = salon.adresse.ort;
+const seitentitel = titel ?? `Friseur ${ort} – ${salon.name}`;
+const seitenbeschreibung =
+  beschreibung ??
+  `${salon.name} in ${ort}: Preise, Öffnungszeiten und Termin. ${salon.claim}`.slice(0, 155);
+
+const termin = terminZiel(salon);
+
+// schema.org: der größte SEO-Hebel neben dem Google-Unternehmensprofil.
+const wochentage: Record<string, string> = {
+  Montag: "Monday",
+  Dienstag: "Tuesday",
+  Mittwoch: "Wednesday",
+  Donnerstag: "Thursday",
+  Freitag: "Friday",
+  Samstag: "Saturday",
+  Sonntag: "Sunday",
+};
+
+const oeffnungsdaten = salon.oeffnungszeiten
+  .filter((z) => !/geschlossen|zu\b/i.test(z.zeit))
+  .map((z) => {
+    const [von, bis] = z.zeit.split(/\s*[–-]\s*/);
+    const tag = wochentage[z.tag];
+    if (!tag || !von || !bis) return null;
+    return {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: `https://schema.org/${tag}`,
+      opens: von.trim(),
+      closes: bis.trim(),
+    };
+  })
+  .filter(Boolean);
+
+const strukturiert: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "HairSalon",
+  name: salon.name,
+  description: salon.claim,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: salon.adresse.strasse,
+    postalCode: salon.adresse.plz,
+    addressLocality: ort,
+    addressCountry: "DE",
+  },
+  telephone: nurZiffern(salon.kontakt.telefon),
+  email: salon.kontakt.email,
+  url: salon.domain ? `https://${salon.domain}/` : undefined,
+  openingHoursSpecification: oeffnungsdaten,
+};
+
+if (salon.sektionen.bewertungen && salon.bewertungen) {
+  strukturiert.aggregateRating = {
+    "@type": "AggregateRating",
+    ratingValue: salon.bewertungen.sterne,
+    reviewCount: salon.bewertungen.anzahl,
+  };
+}
+
+const sozial = [salon.social?.instagram, salon.social?.facebook].filter(Boolean);
+if (sozial.length > 0) strukturiert.sameAs = sozial;
+---
+
+<!doctype html>
+<html lang="de" data-theme={salon.theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{seitentitel}</title>
+    <meta name="description" content={seitenbeschreibung} />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={seitentitel} />
+    <meta property="og:description" content={seitenbeschreibung} />
+    <meta property="og:locale" content="de_DE" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {salon.domain && <link rel="canonical" href={`https://${salon.domain}${Astro.url.pathname}`} />}
+
+    <script type="application/ld+json" set:html={JSON.stringify(strukturiert)} is:inline />
+  </head>
+
+  <body class="font-sans antialiased">
+    <a href="#inhalt" class="sprungmarke">Zum Inhalt springen</a>
+
+    <header class="border-b border-rand bg-grund">
+      <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
+        <a href="/" class="font-titel text-lg font-semibold tracking-tight">
+          {salon.name}
+        </a>
+        <a
+          href={telLink(salon.kontakt)}
+          class="rounded-eigen px-3 py-2 text-sm font-semibold text-akzent hover:underline"
+        >
+          <span aria-hidden="true" class="mr-1">☎</span>
+          <span class="hidden sm:inline">{telefonText(salon.kontakt)}</span>
+          <span class="sm:hidden">Anrufen</span>
+        </a>
+      </div>
+    </header>
+
+    <main id="inhalt" class={anrufleiste ? "pb-20 sm:pb-0" : ""}>
+      <slot />
+    </main>
+
+    <footer class="border-t border-rand bg-grund-sanft">
+      <div
+        class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-8 text-sm text-text-leise sm:flex-row sm:items-center sm:justify-between"
+      >
+        <p>© {new Date().getFullYear()} {salon.name}, {ort}</p>
+        <nav class="flex gap-4">
+          <a href="/impressum/" class="underline hover:no-underline">Impressum</a>
+          <a href="/datenschutz/" class="underline hover:no-underline">Datenschutz</a>
+        </nav>
+      </div>
+    </footer>
+
+    {
+      anrufleiste && (
+        <div class="fixed inset-x-0 bottom-0 z-50 border-t border-rand bg-grund p-2 sm:hidden">
+          <div class="flex gap-2">
+            <a
+              href={telLink(salon.kontakt)}
+              class="flex-1 rounded-eigen bg-akzent px-4 py-3 text-center text-base font-semibold text-akzent-text"
+            >
+              Anrufen
+            </a>
+            <a
+              href={termin.href}
+              rel={termin.extern ? "noopener" : undefined}
+              target={termin.extern ? "_blank" : undefined}
+              class="flex-1 rounded-eigen border border-akzent px-4 py-3 text-center text-base font-semibold text-akzent"
+            >
+              Termin
+            </a>
+          </div>
+        </div>
+      )
+    }
+  </body>
+</html>
