@@ -1,0 +1,95 @@
+---
+/**
+ * Der Aufmacher als Bühne: Foto über die volle Breite, Name mittig
+ * darüber, darunter zwei breite Aktionsbalken.
+ *
+ * Vorbild ist die Anmutung, die Dennis am 02.09. als „schön" bezeichnet
+ * hat (ken-nyn.de): Vollbild, Graustufen, eine einzige Akzentfarbe,
+ * sehr wenig Text — der Salon selbst ist das Argument, nicht ein Satz
+ * über ihn.
+ *
+ * Warum das für dieses Geschäftsmodell mehr ist als Geschmack: Die Fotos
+ * kommen vom Handy, in 30 bis 45 Minuten, bei dem Licht, das gerade da
+ * ist. Ein Vollbild in Graustufen mit dunklem Schleier trägt so ein Foto.
+ * Dasselbe Foto in Farbe, klein und gerahmt, zeigt jeden Fehler.
+ */
+import type { Salon } from "../lib/salon";
+import { telLink, telefonText, terminZiel, heroBild, fotosSchwarzweiss, whatsappLink } from "../lib/salon";
+
+interface Props {
+  salon: Salon;
+}
+const { salon } = Astro.props;
+const termin = terminZiel(salon);
+const bild = heroBild(salon);
+const sw = fotosSchwarzweiss(salon);
+const wa = whatsappLink(salon.kontakt);
+
+// Der zweite Balken: WhatsApp, wenn es das gibt — sonst anrufen.
+const zweiter = wa
+  ? { href: wa, text: "Direkt zu WhatsApp", extern: true }
+  : { href: telLink(salon.kontakt), text: `Anrufen · ${telefonText(salon.kontakt)}`, extern: false };
+---
+
+<section class="relative">
+  <!-- Die Bühne: Foto, darüber ein Schleier, darüber der Name. -->
+  <div class="relative flex min-h-[78svh] items-center justify-center overflow-hidden bg-grund-satt sm:min-h-[80svh]">
+    {
+      bild && (
+        <img
+          src={bild.src}
+          alt={bild.alt}
+          class:list={["absolute inset-0 size-full object-cover", sw && "grayscale"]}
+          fetchpriority="high"
+        />
+      )
+    }
+
+    <!-- Ohne Schleier ist weiße Schrift auf einem hellen Foto unlesbar.
+         Mit Schleier liegt der Kontrast immer über der Grenze. -->
+    <div class="absolute inset-0 bg-black/55" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-3xl px-6 py-24 text-center">
+      <p class="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">
+        Friseur in {salon.adresse.ort}
+      </p>
+
+      <h1 class="mt-6 text-[clamp(2.75rem,11vw,5.5rem)] font-light uppercase leading-none tracking-[0.08em] text-white">
+        {salon.name}
+      </h1>
+
+      <p class="mx-auto mt-6 max-w-xl text-lg font-light leading-relaxed text-white/85">
+        {salon.claim}
+      </p>
+    </div>
+  </div>
+
+  <!-- Die Balken. Breit, ruhig, in der einzigen Farbe der Seite. -->
+  <div class="bg-grund">
+    <a
+      href={termin.href}
+      rel={termin.extern ? "noopener" : undefined}
+      target={termin.extern ? "_blank" : undefined}
+      class="block bg-akzent px-6 py-5 text-center text-sm font-semibold uppercase tracking-[0.15em] text-akzent-text transition hover:opacity-90 sm:text-base"
+    >
+      {termin.text}
+    </a>
+
+    <a
+      href={zweiter.href}
+      rel={zweiter.extern ? "noopener" : undefined}
+      target={zweiter.extern ? "_blank" : undefined}
+      class="block border-t border-akzent-text/20 bg-akzent px-6 py-5 text-center text-sm font-semibold uppercase tracking-[0.15em] text-akzent-text transition hover:opacity-90 sm:text-base"
+    >
+      {zweiter.text}
+    </a>
+  </div>
+
+  {
+    salon.termin.hinweis && (
+      <p class="bg-grund px-6 py-5 text-center text-sm text-text-leise">
+        {salon.termin.hinweis}
+      </p>
+    )
+  }
+</section>

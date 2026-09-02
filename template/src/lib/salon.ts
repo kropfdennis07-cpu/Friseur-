@@ -100,6 +100,23 @@ export interface Salon {
   claim: string;
   /** Dateiname des Aufmacherfotos in kunden/<slug>/images/. Leer = Initiale. */
   heroFoto?: { datei: string; alt: string };
+  /**
+   * Wie der Aufmacher gebaut ist.
+   *   "geteilt" – Text links, Bild rechts. Ruhig, viel Platz für Worte.
+   *   "buehne"  – Foto über die volle Breite, Name mittig darüber, darunter
+   *               breite Aktionsbalken. Wirkt wie ein Schaufenster.
+   * Fehlt die Angabe, bestimmt das Theme den Stil.
+   */
+  heroStil?: "geteilt" | "buehne";
+  /**
+   * "schwarzweiss" legt alle Kundenfotos in Graustufen.
+   *
+   * Das ist keine Spielerei: Die Fotos kommen vom Handy, bei
+   * unterschiedlichem Licht, an unterschiedlichen Tagen. In Farbe sieht
+   * man jede Abweichung — in Graustufen wirken sie wie eine Serie. Ein
+   * mittelmäßiges Foto wird dadurch nicht gut, aber die Seite wird ruhig.
+   */
+  fotoStil?: "farbe" | "schwarzweiss";
   adresse: Adresse;
   kontakt: Kontakt;
   social?: { instagram?: string; facebook?: string };
@@ -280,6 +297,18 @@ export function heroBild(s: Salon): { src: string; alt: string } | null {
     return { src: `/bilder/${erstes.datei.trim()}`, alt: erstes.alt?.trim() || `${s.name} in ${s.adresse.ort}` };
   }
   return null;
+}
+
+/** Welcher Aufmacher gilt: Angabe des Kunden, sonst die Vorgabe des Themes. */
+export function heroStil(s: Salon): "geteilt" | "buehne" {
+  if (s.heroStil) return s.heroStil;
+  return s.theme === "nacht" ? "buehne" : "geteilt";
+}
+
+/** Ob Fotos in Graustufen laufen: Angabe des Kunden, sonst Vorgabe des Themes. */
+export function fotosSchwarzweiss(s: Salon): boolean {
+  if (s.fotoStil) return s.fotoStil === "schwarzweiss";
+  return s.theme === "nacht";
 }
 
 /** Route-Link ohne eingebettete Google-Karte — die würde Scripts laden. */

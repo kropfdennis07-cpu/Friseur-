@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "node ../scripts/bilder.mjs && astro dev",
+    "build": "node ../scripts/bilder.mjs && astro build",
     "preview": "astro preview"
   },
   "keywords": [],

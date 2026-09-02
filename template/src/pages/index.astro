@@ -1,18 +1,25 @@
 ---
 import Basis from "../layouts/Basis.astro";
 import Hero from "../components/Hero.astro";
+import HeroBuehne from "../components/HeroBuehne.astro";
 import Leistungen from "../components/Leistungen.astro";
 import UeberUns from "../components/UeberUns.astro";
 import Bewertungen from "../components/Bewertungen.astro";
 import Kontakt from "../components/Kontakt.astro";
-import { ladeSalon } from "../lib/salon";
+import { ladeSalon, heroStil } from "../lib/salon";
 
 const salon = ladeSalon();
 const s = salon.sektionen;
+const buehne = heroStil(salon) === "buehne";
 ---
 
-<Basis salon={salon}>
-  <Hero salon={salon} />
+{/*
+  Bei der Bühne stehen Anrufen und Termin schon als breite Balken ganz
+  oben. Die feste Leiste am unteren Rand wäre derselbe Knopf ein zweites
+  Mal — vier Schaltflächen für zwei Handlungen.
+*/}
+<Basis salon={salon} anrufleiste={!buehne}>
+  {buehne ? <HeroBuehne salon={salon} /> : <Hero salon={salon} />}
   {s.leistungen && <Leistungen salon={salon} />}
   {s.ueberUns && <UeberUns salon={salon} />}
   {s.bewertungen && salon.bewertungen && <Bewertungen salon={salon} />}
